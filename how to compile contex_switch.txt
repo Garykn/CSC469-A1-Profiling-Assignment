@@ -1,0 +1,1 @@
+gcc -g context_switch.c -o context_switch -D_GNU_SOURCE

@@ -1,0 +1,43 @@
+For part B we have created several files. Before we get into what was done we give a short description of each relavent file. After which comes the methodolagy and results.
+
+The Script that creates the data is some-cpus.sh. The data is output onto output.txt. The script has n cpus from each node benchmarked against every node. The included text files vary that n. The file large-output.txt has that n set to 6, medium-output.txt has n set to 4, and small-output.txt has n set to 2. The script is given where n is set to 2.
+
+Our methodology was to run McCalpin's Stream Benchmark against each node but vary the cpu we used. Then we compare the node the cpu was running on and which node's memory we are referancing and compare the cost with the cost given from the --hardware command.
+
+node distances from --hardware command:
+node   0   2   4   6 
+  0:  10  16  16  16 
+  2:  16  10  16  16 
+  4:  16  16  10  16 
+  6:  16  16  16  10
+
+Best Rate (MB/s) ranges from node (column) to node (row). 
+node   0           2           4           6 
+  0:  4500-6500   3700-4300   2000-3000   1950-2850 
+  2:  2000-3000   4150-6550   3600-4100   2000-3000
+  4:  2500-4350   2000-3000   4100-6550   2000-3000
+  6:  2600-4250   2000-3000   2000-3050   4100-6500
+  
+The fastest rate range is 4500-6500 and the lowest are 2000-3000. The ranges of numbers occur from the different cpus in each node performing with some variance. If we take the middle value of each range and change it from MB/s to GB/s we can get something easier to compare with.
+
+Best Rate (GB/s) ranges from node (column) to node (row). 
+node   0     2     4     6 
+  0:  5.5   4     2.5   2.4 
+  2:  2.5   5.3   3.85  2.5
+  4:  2.95  2.5   5.3   2.5
+  6:  3.4   2.5   2.5   5.3
+  
+The problem is these values are speeds not "distances". But if we divide 55 by each number we can get the "distance". (55 was chossen because 55/5.5 =10)
+
+
+Distnace from node (column) to node (row). 
+node   0      2      4      6 
+  0:  10     13.75  22     22.92 
+  2:  22     10.38  14.29  22
+  4:  18.64  22     10.38  22
+  6:  16.18  22     22     10.38
+  
+  
+The distance from each node to itself is consistent so that was accurate. The approximate distance from a node to another node is 22 not 16 that was given from the --hardware command. Also every node can access another node faster than the other 2. For node 0, it can use node 2 faster. For node 2, it can use node 4 faster. For node 4, it can use node node 0 faster. For node 6, it can use node 0 faster. Additionally, nodes 2 and 0 can access thier "closer" nodes faster than nodes 4, 6 can access their "closer" nodes.
+
+In conclusion, the the discrepancies observed where the distance to other nodes should be 22 not 16; each node has 1 node that's closer to it than the others; and the distance between the nodes and their closer nodes is not consistent amongst all the nodes.
